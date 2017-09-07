@@ -62,8 +62,8 @@ app.use('/parse', function (req, res) {
 					}));
 
 					playersData.push({
-						// id: $(tds[0]).text().trim(),
-						// name: $(tds[1]).text().trim(),
+						id: $(tds[0]).text().trim(),
+						name: $(tds[1]).text().trim(),
 						age: Number($(tds[2]).text().trim()) / 100,
 						estimated: Math.round(Number($(tds[3]).text().replace('€', '').replace(/ /g, '')) *6.4) / 10000000,
 						current: Math.round(Number($(tds[4]).text().replace('€', '').replace(/ /g, '')) * 6.4) / 10000000,

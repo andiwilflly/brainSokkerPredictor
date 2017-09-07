@@ -45,7 +45,8 @@ const config = {
 	},
 	plugins: [
 		new webpack.ProvidePlugin({
-			'React':  'react'
+			'React':  'react',
+			'_':      'lodash'
 		})
 		// new webpack.HotModuleReplacementPlugin(),
 		// new webpack.NoEmitOnErrorsPlugin(),
@@ -91,7 +92,8 @@ const serverConfig = {
 	},
 	plugins: [
 		new webpack.ProvidePlugin({
-			'React':  'react'
+			'React':  'react',
+			'_':      'lodash'
 		})
 	]
 };
