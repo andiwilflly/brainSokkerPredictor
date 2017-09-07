@@ -22,6 +22,8 @@
 		"material-ui": "^0.19.1",
 		"mobx": "^3.2.2",
 		"moment": "^2.18.1",
+		"mongo-express": "^0.42.2",
+		"mongodb": "^2.2.31",
 		"morgan": "^1.8.2",
 		"net": "^1.0.2",
 		"node-sass-middleware": "^0.11.0",

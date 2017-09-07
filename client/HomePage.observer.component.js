@@ -82,12 +82,12 @@ class HomePage extends React.Component {
 				{ this.selectedPlayer ?
 					<Paper>
 						<Table>
-							<TableBody displayRowCheckbox={false} showRowHover={true}>
+							<TableBody displayRowCheckbox={false} showRowHover={false}>
 								<TableRow key={0}>
 									<TableRowColumn>name</TableRowColumn>
 									<TableRowColumn>{ this.selectedPlayer.input.name }</TableRowColumn>
 									<TableRowColumn>age</TableRowColumn>
-									<TableRowColumn>{ this.selectedPlayer.input.age * 100 }</TableRowColumn>
+									<TableRowColumn>{ Math.round(this.selectedPlayer.input.age * 100) }</TableRowColumn>
 								</TableRow>
 								<TableRow key={1}>
 									<TableRowColumn>stamina</TableRowColumn>
