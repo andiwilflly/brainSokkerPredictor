@@ -23,6 +23,14 @@ MongoClient.connect("mongodb://andiwillfly:ward121314@ds127854.mlab.com:27854/ne
 	var htmlToJson = require("html-to-json");
 	const $ = require('cheerio');
 
+
+	app.use('/players', function (req, res) {
+		const playersCollection = DB.collection('players');
+		playersCollection.find().toArray(function(err, players) {
+			res.send(players);
+		});
+	});
+
 	app.use('/parse', function (req, res) {
 		request('http://sokker.worldofbarter.com/CurrentTransfers', function (error, response, body) {
 
@@ -83,12 +91,16 @@ MongoClient.connect("mongodb://andiwillfly:ward121314@ds127854.mlab.com:27854/ne
 
 							const DATA = [];
 							playersData.forEach((predictor, index)=> {
+								collection.find({ _id: predictor.name }).toArray(function(err, player) {
+									if(!player.length) {
+										console.log('====== SAVE TO MONGO: ', predictor.name, ' =======');
+										collection.save({
+											_id: predictor.name,
+											...Object.assign(predictor, players[index])
+										});
+									}
 
-								if(predictor.age)
-									collection.save({
-										input: Object.assign(predictor, players[index]),
-										output: { status: 0 }
-									});
+								});
 
 								if(predictor.age)
 									DATA.push({

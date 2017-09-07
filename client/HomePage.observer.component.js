@@ -23,9 +23,10 @@ class HomePage extends React.Component {
 
 	componentDidMount() {
 		console.log('HOME MOUNTRED');
-		window.fetch('/parse')
+		window.fetch('/players')
 			.then((res)=> res.json())
 			.then((netData)=> {
+			console.log(netData);
 				this.setState({
 					netData
 				});
@@ -59,10 +60,10 @@ class HomePage extends React.Component {
 							{ this.state.netData.length ?
 								_.map(this.state.netData, (player)=> {
 									return (
-										<TableRow key={player.input.id}>
-											<TableRowColumn>{ player.input.id }</TableRowColumn>
-											<TableRowColumn>{ player.input.name }</TableRowColumn>
-											<TableRowColumn>{ Math.round(player.input.age * 100) }</TableRowColumn>
+										<TableRow key={player.id}>
+											<TableRowColumn>{ player.id }</TableRowColumn>
+											<TableRowColumn>{ player.name }</TableRowColumn>
+											<TableRowColumn>{ Math.round(player.age * 100) }</TableRowColumn>
 										</TableRow>
 									);
 								})
@@ -85,33 +86,33 @@ class HomePage extends React.Component {
 							<TableBody displayRowCheckbox={false} showRowHover={false}>
 								<TableRow key={0}>
 									<TableRowColumn>name</TableRowColumn>
-									<TableRowColumn>{ this.selectedPlayer.input.name }</TableRowColumn>
+									<TableRowColumn>{ this.selectedPlayer.name }</TableRowColumn>
 									<TableRowColumn>age</TableRowColumn>
-									<TableRowColumn>{ Math.round(this.selectedPlayer.input.age * 100) }</TableRowColumn>
+									<TableRowColumn>{ Math.round(this.selectedPlayer.age * 100) }</TableRowColumn>
 								</TableRow>
 								<TableRow key={1}>
 									<TableRowColumn>stamina</TableRowColumn>
-									<TableRowColumn>{ Math.round(this.selectedPlayer.input.stamina * 100) }</TableRowColumn>
+									<TableRowColumn>{ Math.round(this.selectedPlayer.stamina * 100) }</TableRowColumn>
 									<TableRowColumn>keeper</TableRowColumn>
-									<TableRowColumn>{ Math.round(this.selectedPlayer.input.keeper * 100) }</TableRowColumn>
+									<TableRowColumn>{ Math.round(this.selectedPlayer.keeper * 100) }</TableRowColumn>
 								</TableRow>
 								<TableRow key={2}>
 									<TableRowColumn>pace</TableRowColumn>
-									<TableRowColumn>{ Math.round(this.selectedPlayer.input.pace * 100) }</TableRowColumn>
+									<TableRowColumn>{ Math.round(this.selectedPlayer.pace * 100) }</TableRowColumn>
 									<TableRowColumn>defender</TableRowColumn>
-									<TableRowColumn>{ Math.round(this.selectedPlayer.input.defender * 100) }</TableRowColumn>
+									<TableRowColumn>{ Math.round(this.selectedPlayer.defender * 100) }</TableRowColumn>
 								</TableRow>
 								<TableRow key={3}>
 									<TableRowColumn>technique</TableRowColumn>
-									<TableRowColumn>{ Math.round(this.selectedPlayer.input.technique * 100) }</TableRowColumn>
+									<TableRowColumn>{ Math.round(this.selectedPlayer.technique * 100) }</TableRowColumn>
 									<TableRowColumn>playmaker</TableRowColumn>
-									<TableRowColumn>{ Math.round(this.selectedPlayer.input.playmaker * 100) }</TableRowColumn>
+									<TableRowColumn>{ Math.round(this.selectedPlayer.playmaker * 100) }</TableRowColumn>
 								</TableRow>
 								<TableRow key={4}>
 									<TableRowColumn>passing</TableRowColumn>
-									<TableRowColumn>{ Math.round(this.selectedPlayer.input.passing * 100) }</TableRowColumn>
+									<TableRowColumn>{ Math.round(this.selectedPlayer.passing * 100) }</TableRowColumn>
 									<TableRowColumn>striker</TableRowColumn>
-									<TableRowColumn>{ Math.round(this.selectedPlayer.input.striker * 100) }</TableRowColumn>
+									<TableRowColumn>{ Math.round(this.selectedPlayer.striker * 100) }</TableRowColumn>
 								</TableRow>
 							</TableBody>
 						</Table>
