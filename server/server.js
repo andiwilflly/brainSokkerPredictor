@@ -91,15 +91,16 @@ MongoClient.connect("mongodb://andiwillfly:ward121314@ds127854.mlab.com:27854/ne
 
 							const DATA = [];
 							playersData.forEach((predictor, index)=> {
-								collection.find({ _id: predictor.name }).toArray(function(err, player) {
-									if(!player.length) {
-										console.log('====== SAVE TO MONGO: ', predictor.name, ' =======');
+								// TODO: findOne
+								if(!predictor.age) return;
+								collection.findOne({ _id: predictor.name }).then((player)=> {
+									if(!player) {
+										console.log('====== SAVE PLAYER TO MONGO: ', predictor.name, ' =======');
 										collection.save({
 											_id: predictor.name,
 											...Object.assign(predictor, players[index])
 										});
 									}
-
 								});
 
 								if(predictor.age)

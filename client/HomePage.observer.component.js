@@ -22,11 +22,9 @@ class HomePage extends React.Component {
 
 
 	componentDidMount() {
-		console.log('HOME MOUNTRED');
 		window.fetch('/players')
 			.then((res)=> res.json())
 			.then((netData)=> {
-			console.log(netData);
 				this.setState({
 					netData
 				});
@@ -58,9 +56,12 @@ class HomePage extends React.Component {
 						</TableHeader>
 						<TableBody displayRowCheckbox={false} showRowHover={true}>
 							{ this.state.netData.length ?
-								_.map(this.state.netData, (player)=> {
+								_.map(this.state.netData, (player, row)=> {
 									return (
-										<TableRow key={player.id}>
+										<TableRow key={player.id}
+												  style={{
+													   border: this.state.selectedRow === row ? '2px solid gray' : ''
+												  }}>
 											<TableRowColumn>{ player.id }</TableRowColumn>
 											<TableRowColumn>{ player.name }</TableRowColumn>
 											<TableRowColumn>{ Math.round(player.age * 100) }</TableRowColumn>
