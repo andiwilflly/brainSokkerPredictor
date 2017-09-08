@@ -8,6 +8,7 @@ import {
 	TableFooter,
 	TableRowColumn,
 } from 'material-ui/Table';
+import {Tabs, Tab} from 'material-ui/Tabs';
 
 
 class HomePage extends React.Component {
@@ -22,7 +23,7 @@ class HomePage extends React.Component {
 
 
 	componentDidMount() {
-		window.fetch('/players')
+		window.fetch('/keepers')
 			.then((res)=> res.json())
 			.then((netData)=> {
 				this.setState({
@@ -38,12 +39,34 @@ class HomePage extends React.Component {
 	onRowSelection = (selectedRow)=> {
 		this.setState({ selectedRow: selectedRow[0] });
 	};
+
+
+	handleActive = (tab)=> {
+		window.fetch(`${tab.props['data-route']}`)
+			.then((res)=> res.json())
+			.then((netData)=> {
+				this.setState({
+					netData
+				});
+			})
+	};
 	
 
 	render() {
 		return (
 			<div>
 				<Paper>
+					<Tabs style={styles.tabs}>
+						<Tab label="All Players"
+						     data-route="/players"
+						     onActive={this.handleActive}>
+						</Tab>
+						<Tab label="Keepers"
+						     data-route="/keepers"
+						     onActive={this.handleActive}>
+						</Tab>
+					</Tabs>
+
 					<Table
 						onRowSelection={ this.onRowSelection }
 						height={ '384px' }>
@@ -125,5 +148,19 @@ class HomePage extends React.Component {
 		);
 	}
 }
+
+
+const styles = {
+	headline: {
+		fontSize: 24,
+		paddingTop: 16,
+		marginBottom: 12,
+		fontWeight: 400,
+		textAlign: "center",
+	},
+	tabs: {
+		paddingTop: 10,
+	},
+};
 
 export default HomePage;
