@@ -25,7 +25,7 @@ class HomePage extends React.Component {
 
 
 	componentDidMount() {
-		window.fetch('/keepers')
+		window.fetch('/players')
 			.then((res)=> res.json())
 			.then((netData)=> {
 				this.setState({
@@ -72,10 +72,12 @@ class HomePage extends React.Component {
 				<Paper>
 					<Tabs style={styles.tabs}>
 						<Tab label="All Players"
+							 key={1}
 						     data-route="/players"
 						     onActive={this.handleActive}>
 						</Tab>
 						<Tab label="Keepers"
+							 key={2}
 						     data-route="/keepers"
 						     onActive={this.handleActive}>
 						</Tab>
