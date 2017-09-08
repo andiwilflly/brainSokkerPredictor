@@ -128,7 +128,9 @@ class HomePage extends React.Component {
 
 				{ this.selectedPlayer ?
 					<Paper>
-						<PlayerTable { ...this.state }/>
+						<PlayerTable netData={ this.state.netData }
+									 selectedPlayer={ this.selectedPlayer }
+									 selectedRow={ this.state.selectedRow }/>
 					</Paper>
 					:
 					null

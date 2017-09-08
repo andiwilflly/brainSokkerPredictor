@@ -13,13 +13,34 @@ import {
 class PlayerTable extends React.Component {
 
 
+	constructor() {
+		super();
+		this.state = {
+			quality: 0
+		};
+	}
+
+
 	get selectedPlayer() { return this.props.netData[this.props.selectedRow]; };
 
 
-	onChange = (newValue)=> {
-		console.log('newValue', newValue);
+	onChange = (quality)=> {
+		if(!_.isNumber(+quality)) return;
+		this.setState({ quality });
 	};
-	
+
+
+	onSubmit = ()=> {
+		console.log('POST', this.state.quality, { input: {...this.props.selectedPlayer }, output: { quality: this.state.quality } });
+		window.fetch("/learn_save_player",
+			{
+				method: "POST",
+				body: { input: {...this.props.selectedPlayer }, output: { quality: this.state.quality } }
+			}).then((e)=> {
+			console.log(e, 'zdes?');
+		});
+	};
+
 
 	render() {
 		return (
@@ -63,7 +84,11 @@ class PlayerTable extends React.Component {
 								hintText="Hint Text"
 							/><br />
 						</TableRowColumn>
-						<TableRowColumn></TableRowColumn>
+						<TableRowColumn>
+							<RaisedButton label="Save player to DB"
+										  onClick={ ()=> this.onSubmit() }
+										  primary={true} />
+						</TableRowColumn>
 						<TableRowColumn></TableRowColumn>
 					</TableRow>
 

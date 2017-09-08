@@ -32,11 +32,11 @@ MongoClient.connect("mongodb://andiwillfly:ward121314@ds127854.mlab.com:27854/ne
 	});
 
 
-	app.use('/players', function (req, res) {
-		const playersCollection = DB.collection('players');
-		playersCollection.find().toArray(function(err, players) {
-			res.send(players);
-		});
+	app.post('/learn_save_player', function (req, res) {
+		//const playersCollection = DB.collection('players');
+
+		console.log(req, 'POST??');
+
 	});
 
 
