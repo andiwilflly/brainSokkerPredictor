@@ -23,6 +23,44 @@ net.train([
 
 var output = net.run([1, 1]);  // [0.987]
 
+// standart
+net.train([{input: { r: 0.03, g: 0.7, b: 0.5 }, output: { black: 1 }},
+	{input: { r: 0.16, g: 0.09, b: 0.2 }, output: { white: 1 }},
+	{input: { r: 0.5, g: 0.5, b: 1.0 }, output: { white: 1 }}]);
+
+// my version
+net.train([
+	{
+		input: {
+			"age": 24,
+			"lastTransfer": 0,
+			"endurance": 4,
+			"quickness": 8,
+			"technique": 7,
+			"passing": 4,
+			"keeper": 0,
+			"defend": 6,
+			"middle": 3,
+			"offence": 9
+		},
+		output: { isGoodPlayer: 1 }
+	},
+	{
+		input: {
+			"age": 24,
+			"lastTransfer": 0,
+			"endurance": 4,
+			"quickness": 8,
+			"technique": 7,
+			"passing": 4,
+			"keeper": 0,
+			"defend": 6,
+			"middle": 3,
+			"offence": 9
+		},
+		output: { isGoodPlayer: 0 }
+	}
+]);
 
 const formatted = _.map(data, (player)=> {
 	return {

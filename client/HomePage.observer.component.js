@@ -1,4 +1,4 @@
-import { RaisedButton, AutoComplete, Menu, CircularProgress, MenuItem, Divider, Drawer, FlatButton, FontIcon, AppBar, BottomNavigation, Paper } from 'material-ui';
+import { RaisedButton, AutoComplete, TextField, Menu, CircularProgress, MenuItem, Divider, Drawer, FlatButton, FontIcon, AppBar, BottomNavigation, Paper } from 'material-ui';
 import {
 	Table,
 	TableBody,
@@ -8,6 +8,9 @@ import {
 	TableFooter,
 	TableRowColumn,
 } from 'material-ui/Table';
+import {Tabs, Tab} from 'material-ui/Tabs';
+// Components
+import PlayerTable from "./PlayerTable.observer.component";
 
 
 class HomePage extends React.Component {
@@ -22,7 +25,7 @@ class HomePage extends React.Component {
 
 
 	componentDidMount() {
-		window.fetch('/players')
+		window.fetch('/keepers')
 			.then((res)=> res.json())
 			.then((netData)=> {
 				this.setState({
@@ -42,12 +45,24 @@ class HomePage extends React.Component {
 	};
 
 
+	handleActive = (tab)=> {
+		window.fetch(`${tab.props['data-route']}`)
+			.then((res) => res.json())
+			.then((netData) => {
+				this.setState({
+					netData
+				});
+			})
+	};
+
+
 	onNameSearch = (playerName)=> {
 		let playerIndex = -1;
 		_.forEach(this.state.netData, (player, index)=> {
 			if(player.name === playerName) playerIndex = index;
 		});
 		this.setState({ selectedRow: playerIndex });
+
 	};
 	
 
@@ -55,9 +70,20 @@ class HomePage extends React.Component {
 		return (
 			<div>
 				<Paper>
+					<Tabs style={styles.tabs}>
+						<Tab label="All Players"
+						     data-route="/players"
+						     onActive={this.handleActive}>
+						</Tab>
+						<Tab label="Keepers"
+						     data-route="/keepers"
+						     onActive={this.handleActive}>
+						</Tab>
+					</Tabs>
+
 					<Table
 						onRowSelection={ this.onRowSelection }
-						height={ '384px' }>
+						height={ '304px' }>
 						<TableHeader displaySelectAll={ false }>
 							<TableRow>
 								<TableRowColumn>ID</TableRowColumn>
@@ -100,49 +126,7 @@ class HomePage extends React.Component {
 
 				{ this.selectedPlayer ?
 					<Paper>
-						<Table>
-							<TableBody displayRowCheckbox={false} showRowHover={false}>
-								<TableRow key={0}>
-									<TableRowColumn>name</TableRowColumn>
-									<TableRowColumn>{ this.selectedPlayer.name }</TableRowColumn>
-									<TableRowColumn>age</TableRowColumn>
-									<TableRowColumn>{ Math.round(this.selectedPlayer.age * 100) }</TableRowColumn>
-								</TableRow>
-								<TableRow key={1}>
-									<TableRowColumn>stamina</TableRowColumn>
-									<TableRowColumn>{ Math.round(this.selectedPlayer.stamina * 100) }</TableRowColumn>
-									<TableRowColumn>keeper</TableRowColumn>
-									<TableRowColumn>{ Math.round(this.selectedPlayer.keeper * 100) }</TableRowColumn>
-								</TableRow>
-								<TableRow key={2}>
-									<TableRowColumn>pace</TableRowColumn>
-									<TableRowColumn>{ Math.round(this.selectedPlayer.pace * 100) }</TableRowColumn>
-									<TableRowColumn>defender</TableRowColumn>
-									<TableRowColumn>{ Math.round(this.selectedPlayer.defender * 100) }</TableRowColumn>
-								</TableRow>
-								<TableRow key={3}>
-									<TableRowColumn>technique</TableRowColumn>
-									<TableRowColumn>{ Math.round(this.selectedPlayer.technique * 100) }</TableRowColumn>
-									<TableRowColumn>playmaker</TableRowColumn>
-									<TableRowColumn>{ Math.round(this.selectedPlayer.playmaker * 100) }</TableRowColumn>
-								</TableRow>
-								<TableRow key={4}>
-									<TableRowColumn>passing</TableRowColumn>
-									<TableRowColumn>{ Math.round(this.selectedPlayer.passing * 100) }</TableRowColumn>
-									<TableRowColumn>striker</TableRowColumn>
-									<TableRowColumn>{ Math.round(this.selectedPlayer.striker * 100) }</TableRowColumn>
-								</TableRow>
-								<TableRow key={5}>
-									<TableRowColumn>profit: </TableRowColumn>
-									<TableRowColumn>
-										[input]
-									</TableRowColumn>
-									<TableRowColumn></TableRowColumn>
-									<TableRowColumn></TableRowColumn>
-								</TableRow>
-
-							</TableBody>
-						</Table>
+						<PlayerTable { ...this.state }/>
 					</Paper>
 					:
 					null
@@ -151,5 +135,19 @@ class HomePage extends React.Component {
 		);
 	}
 }
+
+
+const styles = {
+	headline: {
+		fontSize: 24,
+		paddingTop: 16,
+		marginBottom: 12,
+		fontWeight: 400,
+		textAlign: "center",
+	},
+	tabs: {
+		paddingTop: 10,
+	},
+};
 
 export default HomePage;
