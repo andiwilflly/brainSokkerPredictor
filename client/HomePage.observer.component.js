@@ -1,4 +1,4 @@
-import { RaisedButton, Menu, CircularProgress, MenuItem, Divider, Drawer, FlatButton, FontIcon, AppBar, BottomNavigation, Paper } from 'material-ui';
+import { RaisedButton, AutoComplete, Menu, CircularProgress, MenuItem, Divider, Drawer, FlatButton, FontIcon, AppBar, BottomNavigation, Paper } from 'material-ui';
 import {
 	Table,
 	TableBody,
@@ -34,9 +34,20 @@ class HomePage extends React.Component {
 
 	get selectedPlayer() { return this.state.netData[this.state.selectedRow]; };
 
+	get playersNames() { return _.map(this.state.netData, (player)=> player.name ); };
+
 	
 	onRowSelection = (selectedRow)=> {
 		this.setState({ selectedRow: selectedRow[0] });
+	};
+
+
+	onNameSearch = (playerName)=> {
+		let playerIndex = -1;
+		_.forEach(this.state.netData, (player, index)=> {
+			if(player.name === playerName) playerIndex = index;
+		});
+		this.setState({ selectedRow: playerIndex });
 	};
 	
 
@@ -50,7 +61,13 @@ class HomePage extends React.Component {
 						<TableHeader displaySelectAll={ false }>
 							<TableRow>
 								<TableRowColumn>ID</TableRowColumn>
-								<TableRowColumn>Name</TableRowColumn>
+								<TableRowColumn>
+									<AutoComplete
+										hintText="Name"
+										onNewRequest={ (playerName)=> this.onNameSearch(playerName) }
+										dataSource={this.playersNames}
+									/>
+								</TableRowColumn>
 								<TableRowColumn>Age</TableRowColumn>
 							</TableRow>
 						</TableHeader>
@@ -115,6 +132,15 @@ class HomePage extends React.Component {
 									<TableRowColumn>striker</TableRowColumn>
 									<TableRowColumn>{ Math.round(this.selectedPlayer.striker * 100) }</TableRowColumn>
 								</TableRow>
+								<TableRow key={5}>
+									<TableRowColumn>profit: </TableRowColumn>
+									<TableRowColumn>
+										[input]
+									</TableRowColumn>
+									<TableRowColumn></TableRowColumn>
+									<TableRowColumn></TableRowColumn>
+								</TableRow>
+
 							</TableBody>
 						</Table>
 					</Paper>
